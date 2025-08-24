@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab Focus</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            transition: all 0.8s ease;
+            position: relative;
+            height: 100vh;
+            color: white;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -2;
+            transition: all 2s ease;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: -1;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .time-display {
+            font-size: 4rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+        }
+
+        .date-display {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .quote-section {
+            max-width: 600px;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        .quote-text {
+            font-size: 1.3rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .quote-author {
+            font-size: 1rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+
+        .todo-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            min-width: 350px;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            opacity: 0;
+            animation: slideUp 1s ease forwards;
+            animation-delay: 1s;
+        }
+
+        .todo-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        .todo-input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .todo-input:focus {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.02);
+        }
+
+        .todo-list {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .todo-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(8px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            background: transparent;
+            margin-right: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .todo-checkbox:hover {
+            border-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        }
+
+        .todo-checkbox.completed {
+            background: rgba(46, 204, 113, 0.8);
+            border-color: rgba(46, 204, 113, 1);
+        }
+
+        .todo-checkbox.completed::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .todo-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .delete-btn {
+            background: rgba(255, 59, 48, 0.8);
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            transform: scale(0.8);
+            flex-shrink: 0;
+        }
+
+        .todo-item:hover .delete-btn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .delete-btn:hover {
+            background: rgba(255, 59, 48, 1);
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .control-btn:hover::before {
+            width: 200%;
+            height: 200%;
+        }
+
+        .control-btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+
+        .breathing-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        .breathing-text {
+            font-size: 1.2rem;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        .focus-timer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .timer-display {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .timer-btn {
+            background: rgba(74, 144, 226, 0.8);
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .timer-btn:hover {
+            background: rgba(74, 144, 226, 1);
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Pin Extension Reminder - Improved with downward arrow */
+        .pin-reminder {
+            position: fixed;
+            top: 15px;
+            right: 80px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transform: translateY(-50px) scale(0.8);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+        }
+
+        .pin-reminder.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .pin-arrow {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .arrow-line {
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(180deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 100% 300%;
+            border-radius: 3px;
+            animation: arrowFlow 3s infinite ease-in-out, arrowBounce 1.5s infinite ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arrow-line::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: shimmerVertical 2s infinite;
+        }
+
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 16px solid #ff6b6b;
+            animation: arrowBounce 1.5s infinite ease-in-out;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            margin-top: -2px;
+        }
+
+        .puzzle-icon {
+            position: absolute;
+            top: -25px;
+            right: -10px;
+            font-size: 1.5rem;
+            animation: puzzleClick 2s infinite ease-in-out;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .pin-message {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.15) 50%,
+                rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 20px;
+            padding: 20px 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            min-width: 280px;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                0 10px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            overflow: hidden;
+            animation: messageGlow 4s infinite ease-in-out;
+        }
+
+        .pin-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent);
+            animation: messageShimmer 3s infinite;
+        }
+
+        .pin-text {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.98);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pin-text::before {
+            content: '📌';
+            font-size: 1.2em;
+            animation: pinBounce 2s infinite ease-in-out;
+        }
+
+        .pin-subtext {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.4;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .pin-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .pin-close:hover {
+            background: rgba(255, 59, 48, 0.8);
+            border-color: rgba(255, 59, 48, 1);
+            color: white;
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+        }
+
+        @keyframes arrowFlow {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 0% 100%; }
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-8px) scale(1.1);
+            }
+        }
+
+        @keyframes shimmerVertical {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        @keyframes puzzleClick {
+            0%, 100% {
+                transform: scale(1);
+                background: rgba(255, 255, 255, 0.9);
+            }
+            25% {
+                transform: scale(1.2);
+                background: rgba(255, 235, 59, 0.9);
+            }
+            50% {
+                transform: scale(1.1);
+                background: rgba(76, 175, 80, 0.9);
+            }
+            75% {
+                transform: scale(1.15);
+                background: rgba(33, 150, 243, 0.9);
+            }
+        }
+
+        @keyframes messageGlow {
+            0%, 100% {
+                box-shadow:
+                    0 20px 40px rgba(0, 0, 0, 0.15),
+                    0 10px 20px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+            50% {
+                box-shadow:
+                    0 25px 50px rgba(0, 0, 0, 0.2),
+                    0 15px 30px rgba(0, 0, 0, 0.15),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                    0 0 30px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        @keyframes messageShimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes pinBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .time-display {
+                font-size: 3rem;
+            }
+
+            .todo-section {
+                min-width: 300px;
+                padding: 1.5rem;
+            }
+
+            .controls {
+                bottom: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .pin-reminder {
+                top: 10px;
+                right: 40px;
+                gap: 12px;
+                transform: translateY(-40px) scale(0.9);
+            }
+
+            .pin-reminder.show {
+                transform: translateY(0) scale(0.95);
+            }
+
+            .puzzle-icon {
+                font-size: 1.2rem;
+                padding: 6px;
+                top: -20px;
+                right: -8px;
+            }
+
+            .arrow-line {
+                width: 5px;
+                height: 45px;
+            }
+
+            .arrow-head {
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-top: 14px solid #ff6b6b;
+            }
+
+            .pin-message {
+                min-width: 220px;
+                padding: 16px 20px;
+                border-radius: 16px;
+            }
+
+            .pin-text {
+                font-size: 0.9rem;
+            }
+
+            .pin-subtext {
+                font-size: 0.75rem;
+                margin-bottom: 3px;
+            }
+
+            .pin-close {
+                width: 24px;
+                height: 24px;
+                top: 10px;
+                right: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="overlay"></div>
+
+    <div class="container">
+        <div class="time-display" id="timeDisplay"></div>
+        <div class="date-display" id="dateDisplay"></div>
+
+        <div class="quote-section">
+            <div class="quote-text" id="quoteText"></div>
+            <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+
+        <div class="todo-section">
+            <h2 class="todo-title">Wat is je focus vandaag?</h2>
+            <input type="text" class="todo-input" id="todoInput" placeholder="Voeg een taak toe..." maxlength="100">
+            <ul class="todo-list" id="todoList"></ul>
+
+            <div class="focus-timer" id="focusTimer" style="display: none;">
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                <div class="timer-controls">
+                    <button class="timer-btn" id="startTimerBtn">Start</button>
+                    <button class="timer-btn" id="pauseTimerBtn">Pauze</button>
+                    <button class="timer-btn" id="resetTimerBtn">Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="control-btn" id="breathingBtn">🧘 Mini-Break</button>
+        <button class="control-btn" id="toggleTimerBtn">⏱️ Focus Timer</button>
+        <button class="control-btn" id="changeBackgroundBtn">🌅 Achtergrond</button>
+        <button class="control-btn" id="languageBtn">🌐 Language</button>
+    </div>
+
+    <div class="breathing-overlay" id="breathingOverlay">
+        <div class="breathing-circle">
+            <div class="breathing-text">
+                <div>Adem in...</div>
+                <div>en uit...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pin Extension Reminder -->
+    <div class="pin-reminder" id="pinReminder">
+        <div class="puzzle-icon">🧩</div>
+        <div class="pin-arrow">
+            <div class="arrow-line"></div>
+            <div class="arrow-head"></div>
+        </div>
+        <div class="pin-message">
+            <div class="pin-text">Pin FlowTab voor snelle toegang!</div>
+            <div class="pin-subtext">1. Klik op de puzzel (🧩) hierboven</div>
+            <div class="pin-subtext">2. Druk op de punaise (📌) naast FlowTab</div>
+            <button class="pin-close" id="pinClose">×</button>
+        </div>
+    </div>
+
+    <!-- NO INLINE SCRIPTS - EXTERNAL ONLY -->
+    <script src="script.js?v=backgrounds"></script>
+</body>
+</html>

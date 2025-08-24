@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowTab Verbeterde Pin Reminder Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .demo-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .browser-frame {
+            width: 90%;
+            max-width: 1200px;
+            height: 80%;
+            background: #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .browser-header {
+            height: 40px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 8px;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f57; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #28ca42; }
+
+        .browser-content {
+            height: calc(100% - 40px);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+        }
+
+        /* Improved Pin Reminder */
+        .pin-reminder {
+            position: absolute;
+            top: 15px;
+            right: 80px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transform: translateY(-50px) scale(0.8);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
+            animation: showPin 2s ease-out 1s forwards;
+        }
+
+        .pin-reminder.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .puzzle-icon {
+            position: absolute;
+            top: -25px;
+            right: -10px;
+            font-size: 1.5rem;
+            animation: puzzleClick 2s infinite ease-in-out;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .pin-arrow {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .arrow-line {
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(180deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+            background-size: 100% 300%;
+            border-radius: 3px;
+            animation: arrowFlow 3s infinite ease-in-out, arrowBounce 1.5s infinite ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arrow-line::before {
+            content: '';
+            position: absolute;
+            top: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+            animation: shimmerVertical 2s infinite;
+        }
+
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-top: 16px solid #ff6b6b;
+            animation: arrowBounce 1.5s infinite ease-in-out;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            margin-top: -2px;
+        }
+
+        .pin-message {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.15) 50%, 
+                rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 20px;
+            padding: 20px 25px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            min-width: 280px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.15),
+                0 10px 20px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            overflow: hidden;
+            animation: messageGlow 4s infinite ease-in-out;
+        }
+
+        .pin-message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent);
+            animation: messageShimmer 3s infinite;
+        }
+
+        .pin-text {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: rgba(255, 255, 255, 0.98);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .pin-text::before {
+            content: '📌';
+            font-size: 1.2em;
+            animation: pinBounce 2s infinite ease-in-out;
+        }
+
+        .pin-subtext {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.4;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            margin-bottom: 5px;
+        }
+
+        .pin-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 0;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .pin-close:hover {
+            background: rgba(255, 59, 48, 0.8);
+            border-color: rgba(255, 59, 48, 1);
+            color: white;
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+        }
+
+        .demo-title {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .improvements {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 300px;
+        }
+
+        @keyframes showPin {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes arrowFlow {
+            0%, 100% { background-position: 0% 0%; }
+            50% { background-position: 0% 100%; }
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+            }
+            50% { 
+                transform: translateY(-8px) scale(1.1);
+            }
+        }
+
+        @keyframes shimmerVertical {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        @keyframes puzzleClick {
+            0%, 100% { 
+                transform: scale(1);
+                background: rgba(255, 255, 255, 0.9);
+            }
+            25% { 
+                transform: scale(1.2);
+                background: rgba(255, 235, 59, 0.9);
+            }
+            50% { 
+                transform: scale(1.1);
+                background: rgba(76, 175, 80, 0.9);
+            }
+            75% { 
+                transform: scale(1.15);
+                background: rgba(33, 150, 243, 0.9);
+            }
+        }
+
+        @keyframes messageGlow {
+            0%, 100% { 
+                box-shadow: 
+                    0 20px 40px rgba(0, 0, 0, 0.15),
+                    0 10px 20px rgba(0, 0, 0, 0.1),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            }
+            50% { 
+                box-shadow: 
+                    0 25px 50px rgba(0, 0, 0, 0.2),
+                    0 15px 30px rgba(0, 0, 0, 0.15),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                    0 0 30px rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        @keyframes messageShimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes pinBounce {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-5deg); }
+            75% { transform: scale(1.1) rotate(5deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="improvements">
+            <h3 style="margin: 0 0 15px 0; font-size: 1.2rem;">🎯 Verbeteringen</h3>
+            <ul style="margin: 0; padding-left: 20px; font-size: 0.9rem; line-height: 1.6;">
+                <li><strong>Dikkere pijl</strong> - Beter zichtbaar</li>
+                <li><strong>Naar beneden</strong> - Wijst naar puzzel icoon</li>
+                <li><strong>Geanimeerde puzzel</strong> - Toont waar te klikken</li>
+                <li><strong>Stap-voor-stap</strong> - Duidelijke instructies</li>
+                <li><strong>Visuele feedback</strong> - Kleurveranderingen</li>
+            </ul>
+        </div>
+
+        <div class="browser-frame">
+            <div class="browser-header">
+                <div class="browser-dot dot-red"></div>
+                <div class="browser-dot dot-yellow"></div>
+                <div class="browser-dot dot-green"></div>
+            </div>
+            <div class="browser-content">
+                <div class="pin-reminder">
+                    <div class="puzzle-icon">🧩</div>
+                    <div class="pin-arrow">
+                        <div class="arrow-line"></div>
+                        <div class="arrow-head"></div>
+                    </div>
+                    <div class="pin-message">
+                        <div class="pin-text">Pin FlowTab voor snelle toegang!</div>
+                        <div class="pin-subtext">1. Klik op de puzzel (🧩) hierboven</div>
+                        <div class="pin-subtext">2. Druk op de punaise (📌) naast FlowTab</div>
+                        <button class="pin-close">×</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-title">
+            <h2 style="margin: 0; font-size: 1.5rem;">🎨 Verbeterde Pin Reminder</h2>
+            <p style="margin: 5px 0 0 0; opacity: 0.8;">Duidelijker, dikker, en beter zichtbaar</p>
+        </div>
+    </div>
+
+    <script>
+        // Demo functionality
+        document.querySelector('.pin-close').addEventListener('click', function() {
+            document.querySelector('.pin-reminder').style.opacity = '0';
+            document.querySelector('.pin-reminder').style.transform = 'translateY(-50px) scale(0.8)';
+            
+            // Restart demo after 3 seconds
+            setTimeout(() => {
+                document.querySelector('.pin-reminder').style.opacity = '';
+                document.querySelector('.pin-reminder').style.transform = '';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

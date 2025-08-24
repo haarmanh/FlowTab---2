@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welkom bij FlowTab! 🌊</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 60px 0 40px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.25) 0%, 
+                rgba(255, 255, 255, 0.15) 50%, 
+                rgba(255, 255, 255, 0.1) 100%);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 40px 0;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 15px 30px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        .feature-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        /* Steps Section */
+        .steps-section {
+            margin: 60px 0;
+        }
+
+        .steps-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .step-description {
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 60px 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            margin: 10px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button.secondary {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .step {
+                flex-direction: column !important;
+                text-align: center;
+            }
+            
+            .step:nth-child(even) {
+                flex-direction: column !important;
+            }
+            
+            .welcome-card {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">🌊</div>
+            <h1 class="title">Welkom bij FlowTab!</h1>
+            <p class="subtitle">Je nieuwe productiviteits-partner is geïnstalleerd en klaar voor gebruik</p>
+        </div>
+
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+            <h2 style="font-size: 1.8rem; margin-bottom: 20px; text-align: center;">🎉 Installatie Voltooid!</h2>
+            <p style="text-align: center; font-size: 1.1rem; opacity: 0.9;">
+                FlowTab vervangt nu je standaard nieuwe tab pagina met een krachtige productiviteits-hub. 
+                Elke keer dat je een nieuwe tab opent, krijg je toegang tot focus tools, taken beheer, en mindfulness features.
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div class="features-grid">
+            <div class="feature-card" style="animation-delay: 0.1s;">
+                <span class="feature-icon">⏰</span>
+                <h3 class="feature-title">Live Klok & Datum</h3>
+                <p class="feature-description">
+                    Altijd de actuele tijd en datum in beeld. Perfect voor tijdsbewustzijn tijdens je werk.
+                </p>
+            </div>
+
+            <div class="feature-card" style="animation-delay: 0.2s;">
+                <span class="feature-icon">💭</span>
+                <h3 class="feature-title">Slimme Quotes</h3>
+                <p class="feature-description">
+                    Motiverende quotes die veranderen op basis van het tijdstip en je aantal taken. Blijf geïnspireerd!
+                </p>
+            </div>
+
+            <div class="feature-card" style="animation-delay: 0.3s;">
+                <span class="feature-icon">✅</span>
+                <h3 class="feature-title">Minimale To-Do Lijst</h3>
+                <p class="feature-description">
+                    Voeg taken toe, markeer ze als voltooid, en houd je focus. Alles wordt automatisch opgeslagen.
+                </p>
+            </div>
+
+            <div class="feature-card" style="animation-delay: 0.4s;">
+                <span class="feature-icon">⏱️</span>
+                <h3 class="feature-title">Pomodoro Timer</h3>
+                <p class="feature-description">
+                    25-minuten focus sessies met pauze herinneringen. Bewezen effectief voor productiviteit.
+                </p>
+            </div>
+
+            <div class="feature-card" style="animation-delay: 0.5s;">
+                <span class="feature-icon">🧘</span>
+                <h3 class="feature-title">Mini-Break Oefeningen</h3>
+                <p class="feature-description">
+                    30-seconden ademhalingsoefeningen om stress te verminderen en focus te herstellen.
+                </p>
+            </div>
+
+            <div class="feature-card" style="animation-delay: 0.6s;">
+                <span class="feature-icon">🌅</span>
+                <h3 class="feature-title">Dynamische Achtergronden</h3>
+                <p class="feature-description">
+                    Achtergronden die automatisch veranderen op basis van het tijdstip, of handmatig wisselen.
+                </p>
+            </div>
+        </div>
+
+        <!-- Pro Tips Section -->
+        <div class="welcome-card" style="margin-top: 60px;">
+            <h2 style="font-size: 1.8rem; margin-bottom: 25px; text-align: center;">💡 Pro Tips</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px;">
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">⌨️</div>
+                    <h4 style="margin-bottom: 10px;">Sneltoetsen</h4>
+                    <p style="opacity: 0.9; font-size: 0.9rem;">Ctrl+T (Cmd+T) voor nieuwe tab<br>Enter om taken toe te voegen</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">🎨</div>
+                    <h4 style="margin-bottom: 10px;">Personalisatie</h4>
+                    <p style="opacity: 0.9; font-size: 0.9rem;">Achtergronden wisselen automatisch<br>of klik de knop rechtsonder</p>
+                </div>
+                <div style="text-align: center;">
+                    <div style="font-size: 2rem; margin-bottom: 10px;">💾</div>
+                    <h4 style="margin-bottom: 10px;">Auto-opslaan</h4>
+                    <p style="opacity: 0.9; font-size: 0.9rem;">Al je taken worden automatisch<br>opgeslagen in je browser</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 40px 0; opacity: 0.7;">
+            <p>FlowTab v1.0.0 - Gemaakt voor productiviteit en welzijn</p>
+            <p style="font-size: 0.9rem; margin-top: 10px;">
+                Problemen? Kijk in de extensie popup (📌) voor meer opties
+            </p>
+        </div>
+    </div>
+
+    <script src="welcome.js"></script>
+</body>
+</html>

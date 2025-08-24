@@ -1,0 +1,60 @@
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="centerGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.3" />
+    </linearGradient>
+    
+    <radialGradient id="innerGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.4" />
+      <stop offset="70%" style="stop-color:#ffffff;stop-opacity:0.1" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+    
+    <!-- Shadow filter -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Main background circle with gradient -->
+  <circle cx="64" cy="64" r="56" fill="url(#backgroundGradient)" filter="url(#shadow)"/>
+  
+  <!-- Inner glow effect -->
+  <circle cx="64" cy="64" r="56" fill="url(#innerGlow)"/>
+  
+  <!-- Central focus circle (breathing/meditation symbol) -->
+  <circle cx="64" cy="64" r="24" fill="none" stroke="url(#centerGlow)" stroke-width="3" opacity="0.8">
+    <animate attributeName="r" values="20;28;20" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;0.4;0.8" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Smaller inner circle -->
+  <circle cx="64" cy="64" r="12" fill="url(#centerGlow)" opacity="0.7">
+    <animate attributeName="r" values="10;14;10" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  
+  <!-- Minimalist clock hands to represent time focus -->
+  <g stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.6">
+    <!-- Hour hand -->
+    <line x1="64" y1="64" x2="64" y2="48" transform="rotate(45 64 64)"/>
+    <!-- Minute hand -->
+    <line x1="64" y1="64" x2="64" y2="42" transform="rotate(90 64 64)"/>
+  </g>
+  
+  <!-- Subtle dots for minimalist design (representing tasks/focus points) -->
+  <circle cx="64" cy="32" r="2" fill="white" opacity="0.5"/>
+  <circle cx="96" cy="64" r="2" fill="white" opacity="0.5"/>
+  <circle cx="64" cy="96" r="2" fill="white" opacity="0.5"/>
+  <circle cx="32" cy="64" r="2" fill="white" opacity="0.5"/>
+  
+  <!-- Outer ring for premium feel -->
+  <circle cx="64" cy="64" r="60" fill="none" stroke="white" stroke-width="1" opacity="0.2"/>
+</svg>

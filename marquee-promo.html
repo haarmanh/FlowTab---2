@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowTab Marquee Promotietegel</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .marquee-tile {
+            width: 1400px;
+            height: 560px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            color: white;
+        }
+
+        .left-section {
+            flex: 1;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .right-section {
+            flex: 1.2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            padding: 40px;
+        }
+
+        .logo {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            animation: float 4s ease-in-out infinite;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            font-weight: 400;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            margin-bottom: 40px;
+            font-style: italic;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+            opacity: 0.95;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            animation: bounce 3s infinite;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .feature-icon:nth-child(1) { animation-delay: 0s; }
+        .feature-icon:nth-child(2) { animation-delay: 0.5s; }
+        .feature-icon:nth-child(3) { animation-delay: 1s; }
+        .feature-icon:nth-child(4) { animation-delay: 1.5s; }
+
+        .cta-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: inline-block;
+            animation: pulse 3s infinite;
+        }
+
+        .browser-mockup {
+            width: 500px;
+            height: 320px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .browser-header {
+            height: 40px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 8px;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot-red { background: #ff5f57; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #28ca42; }
+
+        .browser-content {
+            height: 280px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            position: relative;
+        }
+
+        .mock-time {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .mock-date {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .mock-quote {
+            font-size: 1rem;
+            font-style: italic;
+            opacity: 0.8;
+            text-align: center;
+            margin-bottom: 25px;
+            max-width: 300px;
+        }
+
+        .mock-features {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .mock-feature {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mock-todo {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            width: 250px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mock-todo-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+            animation: patternMove 20s ease-in-out infinite;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: floatAround 15s linear infinite;
+        }
+
+        .floating-icon:nth-child(1) {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-icon:nth-child(2) {
+            top: 20%;
+            right: 15%;
+            animation-delay: 3s;
+        }
+
+        .floating-icon:nth-child(3) {
+            bottom: 15%;
+            left: 20%;
+            animation-delay: 6s;
+        }
+
+        .floating-icon:nth-child(4) {
+            bottom: 25%;
+            right: 10%;
+            animation-delay: 9s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes patternMove {
+            0%, 100% { transform: translateX(0px) translateY(0px); }
+            25% { transform: translateX(20px) translateY(-10px); }
+            50% { transform: translateX(-10px) translateY(20px); }
+            75% { transform: translateX(15px) translateY(15px); }
+        }
+
+        @keyframes floatAround {
+            0% { transform: translateX(0px) translateY(0px) rotate(0deg); }
+            25% { transform: translateX(30px) translateY(-20px) rotate(90deg); }
+            50% { transform: translateX(-20px) translateY(30px) rotate(180deg); }
+            75% { transform: translateX(25px) translateY(25px) rotate(270deg); }
+            100% { transform: translateX(0px) translateY(0px) rotate(360deg); }
+        }
+
+        .version-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="marquee-tile">
+        <div class="background-pattern"></div>
+        <div class="version-badge">v1.0.0</div>
+        
+        <div class="floating-elements">
+            <div class="floating-icon">⏰</div>
+            <div class="floating-icon">✅</div>
+            <div class="floating-icon">🧘</div>
+            <div class="floating-icon">🌅</div>
+        </div>
+        
+        <div class="left-section">
+            <div class="logo">🌊</div>
+            <div class="title">FlowTab</div>
+            <div class="subtitle">Focus • Productiviteit • Welzijn</div>
+            <div class="tagline">Vervang je nieuwe tab met een krachtige productiviteits-hub</div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">⏰</span>
+                    <span>Live klok & datum</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💭</span>
+                    <span>Slimme motivatie quotes</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✅</span>
+                    <span>Minimale to-do lijst</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⏱️</span>
+                    <span>Pomodoro focus timer</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🧘</span>
+                    <span>Mindfulness breaks</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🌅</span>
+                    <span>Dynamische achtergronden</span>
+                </div>
+            </div>
+            
+            <div class="cta-badge">
+                🚀 Gratis Chrome Extensie
+            </div>
+        </div>
+        
+        <div class="right-section">
+            <div class="browser-mockup">
+                <div class="browser-header">
+                    <div class="browser-dot dot-red"></div>
+                    <div class="browser-dot dot-yellow"></div>
+                    <div class="browser-dot dot-green"></div>
+                </div>
+                <div class="browser-content">
+                    <div class="mock-time">14:32</div>
+                    <div class="mock-date">Donderdag, 24 Augustus 2024</div>
+                    <div class="mock-quote">"De beste tijd om een boom te planten was 20 jaar geleden. De op een na beste tijd is nu."</div>
+                    
+                    <div class="mock-features">
+                        <div class="mock-feature">🧘 Mini-Break</div>
+                        <div class="mock-feature">⏱️ Focus Timer</div>
+                        <div class="mock-feature">🌅 Achtergrond</div>
+                    </div>
+                    
+                    <div class="mock-todo">
+                        <div class="mock-todo-item">
+                            <span>☐</span>
+                            <span>FlowTab installeren</span>
+                        </div>
+                        <div class="mock-todo-item">
+                            <span>☐</span>
+                            <span>Eerste focus sessie</span>
+                        </div>
+                        <div class="mock-todo-item">
+                            <span>☑</span>
+                            <span style="opacity: 0.6; text-decoration: line-through;">Productief worden</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center; color: #666;">
+        <h3>📸 Marquee Promotietegel Instructies</h3>
+        <div style="max-width: 600px; margin: 0 auto;">
+            <ol style="text-align: left; font-size: 0.9rem;">
+                <li>Maak een screenshot van de tegel hierboven</li>
+                <li>Crop de afbeelding tot exact <strong>1400x560 pixels</strong></li>
+                <li>Sla op als <strong>JPEG</strong> (hoge kwaliteit) of <strong>24-bits PNG</strong></li>
+                <li>Upload naar Chrome Web Store als marquee promotietegel</li>
+            </ol>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; font-size: 0.9rem;">
+                <strong>💡 Marquee Tips:</strong><br>
+                • Deze grote tegel wordt prominent getoond in de Chrome Web Store<br>
+                • Toont zowel branding als daadwerkelijke interface preview<br>
+                • Ideaal voor het aantrekken van nieuwe gebruikers<br>
+                • Zorg voor hoge resolutie en scherpe tekst
+            </div>
+        </div>
+    </div>
+
+    <script>
+        console.log('FlowTab Marquee Promotietegel geladen');
+        console.log('Afmetingen: 1400x560px');
+        
+        // Add some dynamic sparkles
+        function createSparkle() {
+            const tile = document.querySelector('.marquee-tile');
+            const sparkle = document.createElement('div');
+            sparkle.style.cssText = `
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: rgba(255, 255, 255, 0.6);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10;
+                animation: sparkleFloat 3s ease-out forwards;
+            `;
+            
+            sparkle.style.left = Math.random() * 1400 + 'px';
+            sparkle.style.top = Math.random() * 560 + 'px';
+            
+            tile.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 3000);
+        }
+
+        const sparkleCSS = `
+            @keyframes sparkleFloat {
+                0% { opacity: 0; transform: scale(0); }
+                50% { opacity: 1; transform: scale(1); }
+                100% { opacity: 0; transform: scale(0); }
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.textContent = sparkleCSS;
+        document.head.appendChild(style);
+
+        setInterval(createSparkle, 2000);
+    </script>
+</body>
+</html>

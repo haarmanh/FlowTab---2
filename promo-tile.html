@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowTab Promotietegel</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .promo-tile {
+            width: 440px;
+            height: 280px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .promo-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            margin-bottom: 8px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-align: center;
+            background: linear-gradient(135deg, #fff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.95;
+            font-weight: 400;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+            animation: bounce 2s infinite;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+
+        .feature-icon:nth-child(1) { animation-delay: 0s; }
+        .feature-icon:nth-child(2) { animation-delay: 0.3s; }
+        .feature-icon:nth-child(3) { animation-delay: 0.6s; }
+        .feature-icon:nth-child(4) { animation-delay: 0.9s; }
+
+        .feature-text {
+            font-size: 0.7rem;
+            font-weight: 500;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .tagline {
+            font-size: 0.85rem;
+            opacity: 0.85;
+            font-weight: 300;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            font-style: italic;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .corner-accent {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .decorative-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .decorative-elements::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(255, 107, 107, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 75% 75%, rgba(72, 219, 251, 0.1) 0%, transparent 25%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-6px); }
+            60% { transform: translateY(-3px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Screenshot helper */
+        .screenshot-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div class="screenshot-info">
+        📸 Maak een screenshot van de tegel hieronder<br>
+        Grootte: 440x280px | Formaat: JPEG of PNG
+    </div>
+
+    <div class="promo-tile">
+        <div class="decorative-elements"></div>
+        
+        <div class="corner-accent">⭐</div>
+        
+        <div class="logo">🌊</div>
+        
+        <div class="title">FlowTab</div>
+        
+        <div class="subtitle">Focus • Productiviteit • Welzijn</div>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">⏰</div>
+                <div class="feature-text">Live Klok</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">✅</div>
+                <div class="feature-text">To-Do's</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⏱️</div>
+                <div class="feature-text">Timer</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🧘</div>
+                <div class="feature-text">Mindful</div>
+            </div>
+        </div>
+        
+        <div class="tagline">Vervang je nieuwe tab met productiviteit</div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center; color: #666;">
+        <h3>📋 Instructies voor Promotietegel</h3>
+        <ol style="text-align: left; max-width: 400px; margin: 0 auto;">
+            <li>Maak een screenshot van de tegel hierboven</li>
+            <li>Crop de afbeelding tot exact 440x280 pixels</li>
+            <li>Sla op als JPEG (hoge kwaliteit) of 24-bits PNG</li>
+            <li>Upload naar Chrome Web Store als promotietegel</li>
+        </ol>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #f9f9f9; border-radius: 8px; font-size: 0.9rem;">
+            <strong>💡 Tips:</strong><br>
+            • Gebruik browser developer tools om exact 440x280 te screenshotten<br>
+            • Zorg dat de afbeelding scherp is (geen alfa transparantie)<br>
+            • Test de leesbaarheid op verschillende achtergronden
+        </div>
+    </div>
+
+    <script>
+        // Add some interactive sparkles for the screenshot
+        function createSparkle() {
+            const tile = document.querySelector('.promo-tile');
+            const sparkle = document.createElement('div');
+            sparkle.style.cssText = `
+                position: absolute;
+                width: 3px;
+                height: 3px;
+                background: rgba(255, 255, 255, 0.8);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10;
+                animation: sparkleFloat 2s ease-out forwards;
+            `;
+            
+            sparkle.style.left = Math.random() * 440 + 'px';
+            sparkle.style.top = Math.random() * 280 + 'px';
+            
+            tile.appendChild(sparkle);
+            
+            setTimeout(() => {
+                sparkle.remove();
+            }, 2000);
+        }
+
+        // Add sparkle animation CSS
+        const sparkleCSS = `
+            @keyframes sparkleFloat {
+                0% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0;
+                    transform: scale(0);
+                }
+            }
+        `;
+
+        const style = document.createElement('style');
+        style.textContent = sparkleCSS;
+        document.head.appendChild(style);
+
+        // Create sparkles periodically
+        setInterval(createSparkle, 1500);
+
+        console.log('FlowTab Promotietegel geladen - klaar voor screenshot!');
+        console.log('Afmetingen: 440x280px');
+    </script>
+</body>
+</html>
