@@ -14,6 +14,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keyboard shortcuts
 - Dark/light theme toggle
 
+## [1.0.2] - 2024-12-24
+
+### Fixed
+- Removed unnecessary `tabs` and `management` permissions
+- Chrome Web Store compliance improvements
+- Minimal permissions approach (only `storage` required)
+
+### Changed
+- Updated manifest.json to use only required permissions
+- Improved Chrome Web Store submission compliance
+
+## [1.0.1] - 2024-12-24
+
+### Changed
+- Updated extension name and description for international audience
+- English description for broader accessibility
+
 ## [1.0.0] - 2024-12-24
 
 ### Added

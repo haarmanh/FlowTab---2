@@ -1,12 +1,10 @@
 {
   "manifest_version": 3,
   "name": "FlowTab – Focus Timer, To-Do & Mindful New Tab",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A productivity-focused new tab page with a focus timer, to-do list, and mindfulness features.",
   "permissions": [
-    "storage",
-    "tabs",
-    "management"
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"
