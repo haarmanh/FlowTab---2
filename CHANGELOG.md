@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keyboard shortcuts
 - Dark/light theme toggle
 
+## [1.0.5] - 2025-08-29
+
+### Fixed
+- Fixed privacy policy links to point to correct GitHub repository
+- Chrome Web Store compliance: Privacy policy now accessible
+
+### Changed
+- Updated all GitHub repository references from 'flowtab' to 'FlowTab---2'
+
 ## [1.0.2] - 2024-12-24
 
 ### Fixed
@@ -145,4 +154,4 @@ See [README.md](README.md) for detailed roadmap information.
 
 ---
 
-*For support, please visit our [GitHub Issues](https://github.com/haarmanh/flowtab/issues) page.*
+*For support, please visit our [GitHub Issues](https://github.com/haarmanh/FlowTab---2/issues) page.*

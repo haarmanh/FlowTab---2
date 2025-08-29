@@ -55,8 +55,8 @@ FlowTab is a privacy-first Chrome extension that replaces your default new tab p
 ### Developer Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/haarmanh/flowtab.git
-   cd flowtab
+   git clone https://github.com/haarmanh/FlowTab---2.git
+   cd FlowTab---2
    ```
 
 2. Open Chrome and navigate to `chrome://extensions/`
@@ -122,7 +122,7 @@ Read our complete [Privacy Policy](PRIVACY.md) for detailed information.
 ## 📁 Project Structure
 
 ```
-flowtab/
+FlowTab---2/
 ├── manifest.json          # Extension configuration
 ├── newtab.html            # Main FlowTab interface
 ├── script.js              # Core functionality
@@ -146,7 +146,7 @@ flowtab/
 We welcome contributions! Here's how you can help:
 
 ### Reporting Issues
-- Use the [GitHub Issues](https://github.com/haarmanh/flowtab/issues) page
+- Use the [GitHub Issues](https://github.com/haarmanh/FlowTab---2/issues) page
 - Provide detailed descriptions
 - Include browser version and steps to reproduce
 
@@ -189,7 +189,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Documentation**: Check this README and [Installation Guide](INSTALLATIE.md)
-- **Issues**: [GitHub Issues](https://github.com/haarmanh/flowtab/issues)
+- **Issues**: [GitHub Issues](https://github.com/haarmanh/FlowTab---2/issues)
 - **Email**: haarmanh@gmail.com
 - **Privacy Questions**: See [Privacy Policy](PRIVACY.md)
 

@@ -80,7 +80,7 @@ If we ever change our privacy practices (which is unlikely given our no-data app
 
 If you have questions about this privacy policy or FlowTab's privacy practices:
 
-- **GitHub Issues:** [https://github.com/haarmanh/flowtab/issues](https://github.com/haarmanh/flowtab/issues)
+- **GitHub Issues:** [https://github.com/haarmanh/FlowTab---2/issues](https://github.com/haarmanh/FlowTab---2/issues)
 - **Email:** haarmanh@gmail.com
 
 ## Compliance
@@ -97,4 +97,4 @@ This privacy policy complies with:
 
 ---
 
-*This privacy policy is available at: https://github.com/haarmanh/flowtab/blob/main/PRIVACY.md*
+*This privacy policy is available at: https://github.com/haarmanh/FlowTab---2/blob/main/PRIVACY.md*

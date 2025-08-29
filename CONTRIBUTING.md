@@ -73,14 +73,14 @@ Feature suggestions are welcome! Please:
 
 ```bash
 # Clone your fork
-git clone https://github.com/yourusername/flowtab.git
-cd flowtab
+git clone https://github.com/yourusername/FlowTab---2.git
+cd FlowTab---2
 
 # Load in Chrome for testing
 # 1. Open chrome://extensions/
 # 2. Enable Developer mode
 # 3. Click "Load unpacked"
-# 4. Select the flowtab directory
+# 4. Select the FlowTab---2 directory
 ```
 
 ### File Structure
@@ -88,7 +88,7 @@ cd flowtab
 When adding new files, follow this structure:
 
 ```
-flowtab/
+FlowTab---2/
 ├── manifest.json          # Extension configuration
 ├── newtab.html            # Main interface
 ├── script.js              # Core functionality
@@ -117,7 +117,7 @@ Use clear, descriptive commit messages:
 If you have questions about contributing:
 
 - Check the [README](README.md) for basic information
-- Look through existing [issues](https://github.com/haarmanh/flowtab/issues)
+- Look through existing [issues](https://github.com/haarmanh/FlowTab---2/issues)
 - Create a new issue with the "question" label
 - Email: haarmanh@gmail.com
 

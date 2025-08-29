@@ -1,0 +1,10 @@
+{
+  "extensionName": {
+    "message": "FlowTab – Focus Timer, To-Do & Mindful New Tab",
+    "description": "Naam van de extensie"
+  },
+  "extensionDescription": {
+    "message": "Een productiviteits-gerichte nieuwe tab pagina met focus timer, to-do lijst en mindfulness features.",
+    "description": "Beschrijving van de extensie"
+  }
+}
