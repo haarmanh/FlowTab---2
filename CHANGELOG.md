@@ -14,6 +14,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keyboard shortcuts
 - Dark/light theme toggle
 
+## [1.0.6] - 2025-08-30
+
+### Fixed
+- Made GitHub repository public so privacy policy link is accessible
+- Chrome Web Store compliance: Privacy policy URL now works correctly
+
+### Changed
+- Repository visibility changed from private to public
+
 ## [1.0.5] - 2025-08-29
 
 ### Fixed
