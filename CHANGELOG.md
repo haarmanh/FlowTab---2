@@ -14,6 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keyboard shortcuts
 - Dark/light theme toggle
 
+## [1.0.7] - 2025-08-30
+
+### Added
+- Expanded quote collection to 50 quotes per language (100 total)
+- More variety in context-aware quotes for better user experience
+- Additional quotes for all contexts: morning, work, afternoon, evening, simplicity, progress
+
+### Improved
+- Quote rotation now has much more variety
+- Better distribution of quotes across different times of day and task loads
+- Enhanced multilingual quote support (Dutch and English)
+
 ## [1.0.6] - 2025-08-30
 
 ### Fixed
