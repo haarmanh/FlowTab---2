@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Keyboard shortcuts
 - Dark/light theme toggle
 
+## [1.0.8] - 2025-08-30
+
+### Fixed
+- Chrome Web Store version compatibility (bumped to 1.0.8)
+- Ensured all files have consistent version numbering
+
 ## [1.0.7] - 2025-08-30
 
 ### Added
